@@ -20,11 +20,12 @@ const path = require('path');
 // const xcode = require('xcode');
 const childProcess = require('child_process');
 // const semver = require('semver');
-const glob = require('glob');
+// const glob = require('glob');
 
 module.exports = context => {
   const projectRoot = context.opts.projectRoot;
   const xcode = context.requireCordovaModule("xcode");
+  const glob = context.requireCorvodaModule("glob");
 
   // This script has to be executed depending on the command line arguments, not
   // on the hook execution cycle.
