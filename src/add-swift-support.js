@@ -17,15 +17,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const childProcess = require('child_process');
 // const xcode = require('xcode');
+const childProcess = require('child_process');
 // const semver = require('semver');
 // const glob = require('glob');
 
 module.exports = context => {
   const projectRoot = context.opts.projectRoot;
   const xcode = context.requireCordovaModule("xcode");
-  const semver = context.requireCordovaModule("semver");
   const glob = context.requireCordovaModule("glob");
 
   // This script has to be executed depending on the command line arguments, not
@@ -171,7 +170,7 @@ module.exports = context => {
 const getConfigParser = (context, configPath) => {
   let ConfigParser;
 
-  if (semver.lt(context.opts.cordova.version, '5.4.0')) {
+  if (cmpVersions(context.opts.cordova.version, '5.4.0') < 0) {
     ConfigParser = context.requireCordovaModule('cordova-lib/src/ConfigParser/ConfigParser');
   } else {
     ConfigParser = context.requireCordovaModule('cordova-common/src/ConfigParser/ConfigParser');
@@ -182,7 +181,7 @@ const getConfigParser = (context, configPath) => {
 
 const getBridgingHeaderPath = (projectPath, iosPlatformVersion) => {
   let bridgingHeaderPath;
-  if (semver.lt(iosPlatformVersion, '4.0.0')) {
+  if (cmpVersions(iosPlatformVersion, '4.0.0') < 0) {
     bridgingHeaderPath = path.posix.join(projectPath, 'Plugins', 'Bridging-Header.h');
   } else {
     bridgingHeaderPath = path.posix.join(projectPath, 'Bridging-Header.h');
@@ -215,3 +214,19 @@ const getPlatformVersionsFromFileSystem = (context, projectRoot) => {
 
   return Promise.all(platformVersions);
 };
+
+function cmpVersions (a, b) {
+    var i, diff;
+    var regExStrip0 = /(\.0+)+$/;
+    var segmentsA = a.replace(regExStrip0, '').split('.');
+    var segmentsB = b.replace(regExStrip0, '').split('.');
+    var l = Math.min(segmentsA.length, segmentsB.length);
+
+    for (i = 0; i < l; i++) {
+        diff = parseInt(segmentsA[i], 10) - parseInt(segmentsB[i], 10);
+        if (diff) {
+            return diff;
+        }
+    }
+    return segmentsA.length - segmentsB.length;
+}
