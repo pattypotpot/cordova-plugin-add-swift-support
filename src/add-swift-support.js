@@ -24,8 +24,8 @@ const semver = require('semver');
 
 module.exports = context => {
   const projectRoot = context.opts.projectRoot;
-  //const xcode = context.requireCordovaModule("xcode");
-  //const glob = context.requireCordovaModule("glob");
+  const xcode = context.requireCordovaModule("xcode");
+  const glob = context.requireCordovaModule("glob");
 
   // This script has to be executed depending on the command line arguments, not
   // on the hook execution cycle.
