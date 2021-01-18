@@ -18,7 +18,7 @@
 const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
-const semver = require('semver');
+//const semver = require('semver');
 //const xcode = require('xcode');
 //const glob = require('glob');
 
