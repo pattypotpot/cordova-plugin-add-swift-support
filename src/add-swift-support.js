@@ -25,7 +25,7 @@ module.exports = context => {
   
   let xcode, glob;
   if (cmpVersions(context.opts.cordova.version, '8.0.0') < 0) {
-    xcode = context.requireCordovaModule("xcode");
+    xcode = context.require("xcode");
     glob = context.requireCordovaModule("glob");
   } else {
     xcode = require('xcode');
